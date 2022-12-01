@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- semantic UI -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css"
+    />
+    <!--Chart js-->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+      integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw="
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
+      integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E="
+      crossorigin="anonymous"
+    />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <title>Inventory Tracking System</title>
+
+    <style>
+      {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      td, th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      
+      tr:nth-child(even){background-color: #f2f2f2;}
+      
+      tr:hover {background-color: #ddd;}
+      
+      th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: center;
+        background-color: #04AA6D;
+        color: white;
+      }
+
+      div {
+        padding: 40px;
+      }
+      </style>
+  </head>
+  <body>
+    <div>
+    <h1 width="70%" style="margin: 0 auto; text-align:center">Inventory Management (Customized App)</h1>
+    </br>
+    <table width="70%" style="margin: 0 auto; text-align:center">
+      <tr>
+        <th>Store ID</th>
+        <th>Product ID</th>
+        <th>Stock Level</th>
+        <th>Display IP</th>
+        <th>Action</th>
+      </tr>      
+      {% for i in inventory %}
+          <tr>
+            <td>{{ i.storeid }}</td>
+            <td>{{ i.productid }}</td>
+            <td>{{ i.stock }}</td>
+            <td>{{ i.udpip }}</td>
+            <td>
+              <form action="" method="POST" class='like-form' id='{{i.id}}'>
+                {% csrf_token %}
+                <input type="hidden" name="post_id" value={{i.id}}>
+                <button type="submit">Switch
+                </button>
+              </form>
+            </td>
+          </tr>
+      {% endfor %}
+    </table>
+  </div>
+  </body>
+
+  <script>
+    setTimeout(function(){
+      window.location.reload(1);
+   }, 10000);
+
+   $('.like-form').submit(function (e) {
+    e.preventDefault()
+
+    const post_id = $(this).attr('id')
+
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/send-signal/',
+        data: {
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+            'post_id': post_id,
+        },
+        success: function (response) {
+        },
+        error: function (response) {
+        }
+    })
+
+})
+  </script>
+</html>
+
+
