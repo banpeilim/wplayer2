@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Flight, Inventory
+from .models import Flight, Inventory, Doctor
 
 class FlightSerializer(serializers.ModelSerializer):
     class Meta:
@@ -7,8 +7,13 @@ class FlightSerializer(serializers.ModelSerializer):
         fields = ['time', 'destination', 'flight', 'gate', 'status']
 
 
-
 class InventorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Inventory
         fields = ['storeid', 'productid', 'udpip', 'stock', 'signal']
+
+
+class DoctorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Doctor
+        fields = ['department', 'name', 'university']
