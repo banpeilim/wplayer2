@@ -35,3 +35,13 @@ class Doctor(models.Model):
 
     def __str__(self):
         return self.name
+
+
+
+class Coffee(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+    price = models.FloatField(null=True, blank=True, default=0)
+    stock = models.IntegerField(null=True, blank=True, default=0)
+
+    def __str__(self):
+        return self.name

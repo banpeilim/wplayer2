@@ -4,8 +4,8 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
-from .models import Flight, Inventory, Doctor
-from .serializers import FlightSerializer, InventorySerializer, DoctorSerializer
+from .models import Flight, Inventory, Doctor, Coffee
+from .serializers import FlightSerializer, InventorySerializer, DoctorSerializer, CoffeeSerializer
 from django.db.models import F
 from django.views.generic import TemplateView
 import socket
@@ -38,4 +38,13 @@ def getDoctors(request):
 
     doctors = Doctor.objects.all()
     serializers = DoctorSerializer(doctors, many=True)
+    return Response(serializers.data)
+
+
+
+@api_view(['GET'])
+def getCoffee(request):
+
+    coffee = Coffee.objects.all()
+    serializers = CoffeeSerializer(coffee, many=True)
     return Response(serializers.data)
